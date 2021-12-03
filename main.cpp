@@ -31,57 +31,65 @@ int main()
     int choice;
 
     base->add_device();
-    for(auto device : base->get_devices())
-    {
-        std::cout << device.second->manufacturer << std::endl;
-    }
+    base->add_device();
+    base->add_device();
+
+    base->show_all_devices();
+
+    base->remove_device();
+
+    base->show_all_devices();
+
+    base->custom_search();
+    base->show_devices_by_type();
+    base->compare_notebooks();
 
     std::string model;
     std::string manufacturer;
 
 
-    do {
-
-        show_menu();
-        std::cout << "Enter your choice: ";
-
-        switch(choice)
-        {
-            case 1:
-                base->add_device();
-                break;
-            case 2:
-                base->show_all_devices();
-                break;
-            case 3:
-                base->show_devices_by_type();
-                break;
-            case 4:
-                base->show_devices_by_type_and_price_range();
-                break;
-            case 5:
-                base->show_devices_by_type_and_brand();
-                break;
-            case 6:
-                base->custom_search();
-                break;
-            case 7:
-                base->compare_notebooks();
-                break;
-            case 8:
-                base->get_amount_of_device(manufacturer);
-                break;
-            case 9:
-                base->get_amount_of_device(manufacturer, model);
-                break;
-            case 10:
-                base->update_price();
-                break;
-            case 11:
-                menu = false;
-                break;
-        }
-
-    }while(!menu);
+//    do {
+//
+//        show_menu();
+//        std::cout << "Enter your choice: ";
+//
+//        switch(choice)
+//        {
+//            case 1:
+//                base->add_device();
+//                break;
+//            case 2:
+//                base->show_all_devices();
+//                break;
+//            case 3:
+//                base->show_devices_by_type();
+//                break;
+//            case 4:
+//                base->show_devices_by_type_and_price_range();
+//                break;
+//            case 5:
+//                base->show_devices_by_type_and_brand();
+//                break;
+//            case 6:
+//                base->custom_search();
+//                break;
+//            case 7:
+//                base->compare_notebooks();
+//                break;
+//            case 8:
+//                base->get_amount_of_device(manufacturer);
+//                break;
+//            case 9:
+//                base->get_amount_of_device(manufacturer, model);
+//                break;
+//            case 10:
+//                base->update_price();
+//                break;
+//            case 11:
+//                menu = false;
+//                break;
+//        }
+//
+//    }while(!menu);
 
 }

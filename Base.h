@@ -9,6 +9,8 @@
 #include "Device.h"
 #include <map>
 #include <vector>
+#include <string>
+#include <algorithm>
 
 class Base
 {
@@ -16,6 +18,9 @@ private:
     std::map<int, Device*> devices;
     std::vector<int> notebooks;
     std::vector<int> smartbands;
+
+    int ask_for_type();
+    int ask_for_id();
 
 
 public:
@@ -29,11 +34,9 @@ public:
     void show_all_devices();
     void show_devices_by_type();
     void show_devices_by_type_and_price_range();
-    void show_devices_by_type_and_brand();
     void custom_search();
     void compare_notebooks();
     void update_price();
-
 
 };
 

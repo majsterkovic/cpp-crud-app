@@ -6,13 +6,28 @@
 #include "Notebook.h"
 #include "Smartband.h"
 
+int Base::ask_for_type()
+{
+    int type;
+    std::cout << "Choose type of device: " << std::endl;
+    std::cout << "1. Notebook" << std::endl;
+    std::cout << "2. Smartband" << std::endl;
+    std::cin >> type;
+    return type;
+}
+
+int Base::ask_for_id()
+{
+    int id;
+    std::cout << "Enter device id: " << std::endl;
+    std::cin >> id;
+    return id;
+}
+
 
 void Base::add_device()
 {
-    std::cout << "What type of device do you want to add?\n";
-    std::cout << "1. Notebook\n2. Smartband\n";
-    int type;
-    std::cin >> type;
+    int type = ask_for_type();
 
     std::string manufacturer;
     std::string model;
@@ -22,8 +37,7 @@ void Base::add_device()
     bool flag;
     do {
         flag = false;
-        std::cout << "Enter device id: ";
-        std::cin >> id;
+        id = ask_for_id();
 
         if (devices.find(id) != devices.end())
         {
@@ -91,9 +105,8 @@ int Base::get_amount_of_device(std::string manufacturer, std::string model) {
 
 void Base::remove_device()
 {
-    std::cout << "Enter device id: ";
-    int id;
-    std::cin >> id;
+    int id = ask_for_id();
+
     if (devices.find(id) != devices.end())
     {
         Device* d = devices[id];
@@ -126,105 +139,37 @@ void Base::show_all_devices() {
 
 void Base::show_devices_by_type() {
     std::cout << "What type of device do you want to show?\n";
-    std::cout << "1. Notebook\n2. Smartband\n";
-    int type;
-    std::cin >> type;
-    if (type == 1)
+    int type = ask_for_type();
+
+    auto& subcontainer = type == 1 ? notebooks : smartbands;
+
+    for (auto id : subcontainer)
     {
-        for (auto id : notebooks)
-        {
-            devices[id]->show_info();
-        }
-    }
-    else if (type == 2)
-    {
-        for (auto id : smartbands)
-        {
-            devices[id]->show_info();
-        }
-    }
-    else
-    {
-        std::cout << "Wrong input!\n";
+        devices[id]->show_info();
     }
 
 }
 
 void Base::show_devices_by_type_and_price_range() {
     std::cout << "What type of device do you want to show?\n";
-    std::cout << "1. Notebook\n2. Smartband\n";
-    int type;
-    std::cin >> type;
+    int type = ask_for_type();
     std::cout << "Enter price range: ";
     int min, max;
     std::cin >> min >> max;
-    if (type == 1)
+
+    auto& subcontainer = type == 1 ? notebooks : smartbands;
+
+    for(auto id : subcontainer)
     {
-        for (auto id : notebooks)
+        if (devices[id]->get_price() >= min && devices[id]->get_price() <= max)
         {
-            if (devices[id]->get_price() >= min && devices[id]->get_price() <= max)
-            {
-                devices[id]->show_info();
-            }
+            devices[id]->show_info();
         }
     }
-    else if (type == 2)
-    {
-        for (auto id : smartbands)
-        {
-            if (devices[id]->get_price() >= min && devices[id]->get_price() <= max)
-            {
-                devices[id]->show_info();
-            }
-        }
-    }
-    else
-    {
-        std::cout << "Wrong input!\n";
-    }
-
-}
-
-void Base::show_devices_by_type_and_brand() {
-    std::cout << "What type of device do you want to show?\n";
-    std::cout << "1. Notebook\n2. Smartband\n";
-    int type;
-    std::cin >> type;
-    std::cout << "Enter brand: ";
-    std::string brand;
-    std::cin >> brand;
-    if (type == 1)
-    {
-        for (auto id : notebooks)
-        {
-            if (devices[id]->manufacturer == brand)
-            {
-                devices[id]->show_info();
-            }
-        }
-    }
-    else if (type == 2)
-    {
-        for (auto id : smartbands)
-        {
-            if (devices[id]->manufacturer == brand)
-            {
-                devices[id]->show_info();
-            }
-        }
-    }
-    else
-    {
-        std::cout << "Wrong input!\n";
-    }
-
-
 }
 
 void Base::update_price() {
-    std::cout << "Enter device id: ";
-    int id;
-    std::cin >> id;
+    int id = ask_for_id();
     if (devices.find(id) != devices.end())
     {
         std::cout << "Enter new price: ";
@@ -245,10 +190,10 @@ void Base::compare_notebooks() {
     std::cout << "Enter second device id: ";
     int id2;
     std::cin >> id2;
-    if (std::find(notebooks.begin(), notebooks.end(), id1) != notebooks.end()) && std::find(notebooks.begin(), notebooks.end(), id2) != notebooks.end()))
+    if ((std::find(notebooks.begin(), notebooks.end(), id1) != notebooks.end()) && (std::find(notebooks.begin(), notebooks.end(), id2) != notebooks.end()))
     {
-        Notebook n1 = *devices[id1];
-        Notebook n2 = *devices[id2];
+        Notebook n1 = dynamic_cast<Notebook&>(*devices[id1]);
+        Notebook n2 = dynamic_cast<Notebook&>(*devices[id2]);
         if (n1 < n2)
         {
             std::cout << "First device is slower.\n";
@@ -265,15 +210,20 @@ void Base::compare_notebooks() {
 }
 
 void Base::custom_search() {
-    std::cout << "Enter device id: ";
-    int id;
-    std::cin >> id;
-    if (devices.find(id) != devices.end())
+    std::cout << "Enter manufacturer: ";
+    std::string manufacturer;
+    std::cin >> manufacturer;
+    std::cout << "Enter model: ";
+    std::string model;
+    std::cin >> model;
+
+    for(auto device : devices)
     {
-        devices[id]->show_info();
+        if ((device.second->manufacturer == manufacturer) && (device.second->model == model))
+        {
+            std::cout << "Device with this id: " << device.first << "\n";
+            device.second->show_info();
+        }
     }
-    else
-    {
-        std::cout << "Device with this id doesn't exist.\n";
-    }
+
 }
