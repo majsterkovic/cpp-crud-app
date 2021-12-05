@@ -14,10 +14,11 @@ double Device::get_price() const {
     return price;
 }
 
-void Device::show_info() {
+void Device::show_info() const {
+    std::cout << "\n";
     std::cout << "Manufacturer: " << manufacturer << std::endl;
     std::cout << "Model: " << model << std::endl;
-    std::cout << "Price: " << price << std::endl;
+    std::cout << "Price: " << price << " $" << std::endl;
 }
 
 Device::~Device() {

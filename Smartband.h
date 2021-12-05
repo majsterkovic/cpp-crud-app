@@ -13,11 +13,12 @@ private:
     bool NFC;
 
 public:
-    void show_info();
+    void show_info() const;
     bool mobile_payments() const;
+    int get_strip_length() const;
+
 
     Smartband(std::string manufacturer, std::string model, double price, int strip_length, bool NFC);
-    ~Smartband();
 };
 
 

@@ -11,13 +11,14 @@
 #include <vector>
 #include <string>
 #include <algorithm>
+#include <numeric>
 
 class Base
 {
 private:
     std::map<int, Device*> devices;
-    std::vector<int> notebooks;
-    std::vector<int> smartbands;
+    std::vector<int> notebooks_ids;
+    std::vector<int> smartbands_ids;
 
     int ask_for_type();
     int ask_for_id();
@@ -26,10 +27,11 @@ private:
 public:
     void add_device();
     void remove_device();
+
     std::map<int, Device*> get_devices();
 
-    int get_amount_of_device(std::string manufacturer);
-    int get_amount_of_device(std::string manufacturer, std::string model);
+    int get_amount_of_device(std::string manufacturer) const;
+    int get_amount_of_device(std::string manufacturer, std::string model) const;
 
     void show_all_devices();
     void show_devices_by_type();

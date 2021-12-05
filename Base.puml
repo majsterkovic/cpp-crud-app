@@ -1,0 +1,70 @@
+@startuml
+skinparam classAttributeIconSize 0
+'https://plantuml.com/class-diagram
+
+Device <|-- Notebook
+Device <|-- Smartband
+Base *-- Device
+
+abstract class Device
+{
++ manufacturer: std::string
++ model: std::string
+- price: double
+
++ Device(std::string manufacturer, std::string model, double price): Device
++ ~Device()
++ update_price(double new_price): void
++ {abstract} show_info(): void
++ get_price(): double
+}
+
+class Notebook
+{
+- RAM: int
+- disk: int
++ Notebook(std::string manufacturer, std::string model, double price, int RAM, int disk): Notebook
++ show_info(): void
++ get_RAM(): int
++ get_disk(): int
++ (operator) <(Notebook &notebook1, Notebook &notebook2) : bool
++ (operator) >(Notebook &notebook1, Notebook &notebook2) : bool
++ (operator) ==(Notebook &notebook1, Notebook &notebook2) : bool
+}
+
+class Smartband
+{
+- NFC: bool
+- strip_length: int
++ Smartband(std::string manufacturer, std::string model, double price, int strip_length, bool NFC): Smartband
++ show_info(): void
++ mobile_payments(): bool
++ get_strip_length(): int
+
+}
+
+class Base
+{
+- devices: std::map<int, Device*>
+- notebooks_ids: std::vector<int>
+- smartbands_ids: std::vector<int>
+
+- ask_for_type(): int
+- ask_for_id(): int
++ add_device(): void
++ remove_device(): void
++ get_devices(): std::map<int, Device*>
++ get_amount_of_device(std::string manufacturer): int
++ get_amount_of_device(std::string manufacturer, std::string model): int
++ show_all_devices(): void
++ show_devices_by_type(): void
++ show_devices_by_type_and_price_range(): void
++ custom_search(): void
++ compare_notebooks(): void
++ update_price(): void
+
+
+
+}
+
+@enduml

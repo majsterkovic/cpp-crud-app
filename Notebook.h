@@ -13,11 +13,12 @@ class Notebook : public virtual Device {
     int disk;
 
 public:
-    int calculate_performance(int RAM, int disk);
-    void show_info();
+    int calculate_performance(int RAM, int disk) const;
+    int get_RAM() const;
+    int get_disk() const;
+    void show_info() const;
 
     Notebook(std::string manufacturer, std::string model, double price, int RAM, int disk);
-    ~Notebook();
 
     friend bool operator <(Notebook &notebook1, Notebook &notebook2);
     friend bool operator >(Notebook &notebook1, Notebook &notebook2);

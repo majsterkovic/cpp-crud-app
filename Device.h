@@ -17,7 +17,7 @@ public:
     std::string manufacturer;
     std::string model;
     void update_price(double new_price);
-    virtual void show_info();
+    virtual void show_info() const;
     double get_price() const;
 
     Device(std::string manufacturer, std::string model, double price);
